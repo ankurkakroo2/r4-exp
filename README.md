@@ -1,6 +1,5 @@
 # Arduino R4 Experiments
 
-I'm a software engineer who finally decided to see what all this hardware fuss is about. This repo is my journey from pure code to actually making things in the real world - sensors, displays, motors, noise, and the occasional moment of "wait, it actually worked."
 
 ## The Setup
 
