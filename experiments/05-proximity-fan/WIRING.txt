@@ -1,0 +1,388 @@
+╔══════════════════════════════════════════════════════════════════╗
+║        PROXIMITY FAN - WIRING GUIDE                              ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMPONENTS NEEDED:
+  • Arduino Uno R4 ✓
+  • HC-SR04 Ultrasonic Distance Sensor ✓
+  • SG90 Servo Motor ✓ (NEW!)
+  • Buzzer (Passive) ✓
+  • 16x2 LCD (I2C) ✓
+  • 8-10 jumper wires
+
+───────────────────────────────────────────────────────────────────
+
+🎯 PART 1: IDENTIFY THE SERVO MOTOR
+
+Your SG90 servo looks like this:
+
+Side view:
+┌────────────────┐
+│    ┌───┐       │  ← Motor housing
+│    │   │  ○    │  ← Output shaft (white plastic horn)
+│    └───┘       │
+│  [===]         │  ← Mounting tabs with holes
+└────┬───────────┘
+     │
+  3 Wires coming out
+     │
+  ┌──┴──┐
+  │Brown│  ← GND (or Black)
+  │ Red │  ← 5V Power
+  │Orng │  ← Signal/Control (or Yellow/White)
+  └─────┘
+
+Wire Colors (your servo may vary):
+  STANDARD 1:          STANDARD 2:
+  Brown  = GND         Black  = GND
+  Red    = 5V          Red    = 5V
+  Orange = Signal      White  = Signal
+
+Most common (SG90): Brown, Red, Orange
+
+───────────────────────────────────────────────────────────────────
+
+🔌 PART 2: CONNECTION TABLE
+
+Component Pin         →    Arduino Pin
+──────────────────────────────────────────────
+HC-SR04 VCC          →    5V
+HC-SR04 TRIG         →    Pin 9
+HC-SR04 ECHO         →    Pin 10
+HC-SR04 GND          →    GND
+
+Servo Brown/Black    →    GND
+Servo Red            →    5V
+Servo Orange/Yellow  →    Pin 11 (PWM capable)
+
+Buzzer (+)           →    Pin 8
+Buzzer (-)           →    GND
+
+LCD GND              →    GND
+LCD VCC              →    5V
+LCD SDA              →    A4
+LCD SCL              →    A5
+
+───────────────────────────────────────────────────────────────────
+
+🔧 PART 3: STEP-BY-STEP WIRING
+
+CONNECTION 1: Servo Brown/Black → Arduino GND
+─────────────────────────────────────────────
+  Servo side: Brown wire (or Black)
+  Arduino side: GND pin (in POWER section)
+
+  This is the ground/negative wire
+  CRITICAL: Get this right or servo won't work!
+
+
+CONNECTION 2: Servo Red → Arduino 5V
+────────────────────────────────────
+  Servo side: Red wire (middle wire usually)
+  Arduino side: 5V pin (in POWER section)
+
+  This powers the servo motor
+  ⚠️  Servo draws 100-600mA, Arduino 5V can handle it
+
+
+CONNECTION 3: Servo Orange/Yellow → Arduino Pin 11
+───────────────────────────────────────────────────
+  Servo side: Orange wire (or Yellow/White)
+  Arduino side: Digital Pin 11
+
+  This is the PWM control signal
+  Pin 11 is PWM-capable (needed for servo control)
+
+
+CONNECTION 4-7: HC-SR04 Sensor (Same as Experiment 04)
+───────────────────────────────────────────────────────
+  Sensor VCC   → Arduino 5V
+  Sensor TRIG  → Arduino Pin 9
+  Sensor ECHO  → Arduino Pin 10
+  Sensor GND   → Arduino GND
+
+
+CONNECTION 8-9: Buzzer (Same as Previous Experiments)
+──────────────────────────────────────────────────────
+  Buzzer (+)   → Arduino Pin 8
+  Buzzer (-)   → Arduino GND
+
+
+CONNECTION 10-13: LCD (Same as Experiment 02)
+──────────────────────────────────────────────
+  LCD GND      → Arduino GND
+  LCD VCC      → Arduino 5V
+  LCD SDA      → Arduino A4
+  LCD SCL      → Arduino A5
+
+───────────────────────────────────────────────────────────────────
+
+📐 COMPLETE WIRING DIAGRAM
+
+HC-SR04 Ultrasonic Sensor:
+┌──────────────┐
+│   [T]  [R]   │
+│ VCC TRIG ECHO GND
+└──┼───┼───┼───┼──
+   │   │   │   │
+   │   │   │   └──────────────────┐
+   │   │   └──────────────┐       │
+   │   └──────────┐       │       │
+   └──────┐       │       │       │
+          │       │       │       │
+          │       │       │       │
+SG90 Servo Motor:                 │
+┌────────────┐                    │
+│     ○      │  ← Servo horn      │
+│  ┌─────┐   │                    │
+│  │Motor│   │                    │
+└──┴──┬──┴───┘                    │
+      │                           │
+   ┌──┴──┐                        │
+   │Brown│ ────────────────────┐  │
+   │ Red │ ────────────┐       │  │
+   │Orng │ ────┐       │       │  │
+   └─────┘     │       │       │  │
+               │       │       │  │
+    Arduino Uno R4                │
+    ┌──────────────────────────┐ │
+    │                          │ │
+    │   POWER                  │ │
+    │   ─────                  │ │
+    │    GND  ●────────────────┼─┼─┼──(Servo Brown, Sensor GND, Buzzer -, LCD GND)
+    │    GND  ●                │ │ │
+    │    5V   ●────────────────┼─┼─┴──(Servo Red, Sensor VCC, LCD VCC)
+    │    3.3V                  │ │
+    │                          │ │
+    │  DIGITAL                 │ │
+    │  ───────                 │ │
+    │  Pin 0                   │ │
+    │  Pin 1                   │ │
+    │  ...                     │ │
+    │  Pin 8  ●────────────────┼─┴─────(Buzzer +)
+    │  Pin 9  ●────────────────┼───────(Sensor TRIG)
+    │  Pin 10 ●────────────────┼───────(Sensor ECHO)
+    │  Pin 11 ●────────────────┘       (Servo Orange - Signal)
+    │  Pin 12                  │
+    │  Pin 13                  │
+    │                          │
+    │  ANALOG                  │
+    │  ──────                  │
+    │  A0                      │
+    │  A1                      │
+    │  A2                      │
+    │  A3                      │
+    │  A4     ●────────────────────────(LCD SDA)
+    │  A5     ●────────────────────────(LCD SCL)
+    └──────────────────────────┘
+
+Buzzer:
+  (+) ──────→ Pin 8
+  (-) ──────→ GND
+
+LCD (I2C):
+  GND ──────→ GND
+  VCC ──────→ 5V
+  SDA ──────→ A4
+  SCL ──────→ A5
+
+───────────────────────────────────────────────────────────────────
+
+📍 WHERE ARE THE PINS ON ARDUINO?
+
+Looking at Arduino from above (USB port at top):
+
+         [USB Port]
+             ║
+    ┌────────╨──────────┐
+    │                   │
+    │  LEFT SIDE        │  RIGHT SIDE
+    │  (DIGITAL)        │  (POWER + ANALOG)
+    │                   │
+    │  Pin 0            │  POWER
+    │  Pin 1            │  ─────
+    │  Pin 2            │  GND  ← Servo(-), Sensor GND, Buzzer(-), LCD GND
+    │  Pin 3~           │  GND
+    │  Pin 4            │  5V   ← Servo(+), Sensor VCC, LCD VCC
+    │  Pin 5~           │  3.3V
+    │  Pin 6~           │
+    │  Pin 7            │  ANALOG
+    │  Pin 8  ← Buzzer(+)  ──────
+    │  Pin 9~ ← TRIG   │  A0
+    │  Pin 10~← ECHO   │  A1
+    │  Pin 11~← Servo  │  A2
+    │  Pin 12          │  A3
+    │  Pin 13 (LED)    │  A4   ← LCD SDA
+    │                  │  A5   ← LCD SCL
+    └──────────────────┘
+
+Note: ~ means PWM capable (Pin 11 is PWM, needed for servo!)
+
+───────────────────────────────────────────────────────────────────
+
+✅ CONNECTION CHECKLIST
+
+Before uploading code, verify:
+
+Ultrasonic Sensor:
+  [ ] VCC (pin 1) → Arduino 5V
+  [ ] TRIG (pin 2) → Arduino Pin 9
+  [ ] ECHO (pin 3) → Arduino Pin 10
+  [ ] GND (pin 4) → Arduino GND
+
+Servo Motor:
+  [ ] Brown/Black wire → Arduino GND  ← CRITICAL!
+  [ ] Red wire → Arduino 5V
+  [ ] Orange/Yellow/White → Arduino Pin 11 (PWM)
+  [ ] Servo can rotate freely (not blocked)
+
+Buzzer:
+  [ ] Positive (+) → Arduino Pin 8
+  [ ] Negative (-) → Arduino GND
+
+LCD:
+  [ ] GND → Arduino GND
+  [ ] VCC → Arduino 5V
+  [ ] SDA → Arduino A4
+  [ ] SCL → Arduino A5
+
+General:
+  [ ] All wires firmly connected
+  [ ] All GNDs connected to same Arduino GND
+  [ ] All 5V sources share same Arduino 5V
+  [ ] Servo horn can rotate 180° freely
+  [ ] Sensor facing outward (away from Arduino)
+  [ ] Arduino connected to computer via USB
+
+───────────────────────────────────────────────────────────────────
+
+🎯 SERVO SETUP
+
+1. **Attach Servo Horn:**
+   ┌────────────┐
+   │      ○     │  ← Circular horn (for fan blade)
+   │   ┌──○──┐  │  ← Cross horn
+   │   │  │  │  │  ← Single arm horn
+   └───┴──┴──┴──┘
+
+   Use CIRCULAR horn for best fan effect!
+
+2. **Make Paper Fan Blade (Optional):**
+
+   Cut from cardboard:
+        ╱│╲
+       ╱ │ ╲     ← 3-4 blades
+      ╱  ○  ╲    ← Center hole for servo horn
+     ╱   │   ╲
+        ─┼─       ← Attach to circular horn
+
+   Or use propeller from kit if included!
+
+3. **Center the Servo First:**
+   Upload code that does: servo.write(90);
+   This centers the servo at 90° before attaching horn
+
+4. **Attach Horn:**
+   - Servo at 90° position
+   - Press circular horn onto white spline
+   - Secure with small screw (included with servo)
+   - Attach fan blade to horn
+
+───────────────────────────────────────────────────────────────────
+
+🔧 TROUBLESHOOTING
+
+Problem: Servo doesn't move at all
+Fix:
+  • Check power: Red to 5V, Brown/Black to GND
+  • Verify signal wire to Pin 11 (not other pins!)
+  • Upload simple test code: servo.write(90);
+  • Try different 5V/GND pins
+  • Check servo not mechanically jammed
+
+Problem: Servo jitters/vibrates
+Fix:
+  • Power issue - Arduino 5V might be insufficient
+  • Try external 5V power supply (separate for servo)
+  • Check all connections are firm
+  • Reduce servo load (remove fan blade temporarily)
+
+Problem: Servo moves wrong direction
+Fix:
+  • This is normal - direction depends on mounting
+  • Reverse in code: 180-angle instead of angle
+  • Or physically rotate servo 180°
+
+Problem: Servo makes noise but doesn't turn
+Fix:
+  • Servo might be stalled/blocked
+  • Remove fan blade, check if it moves
+  • Servo might be damaged
+  • Try different servo from kit
+
+Problem: Everything works except servo
+Fix:
+  • Check Pin 11 connection (most common issue)
+  • Verify #include <Servo.h> in code
+  • Verify servo.attach(11); in setup()
+  • Check servo wiring polarity
+
+Problem: LCD not displaying
+Fix:
+  • Run I2C Scanner (from Experiment 02)
+  • Verify address is 0x27
+  • Check SDA/SCL not swapped
+  • Verify all grounds connected
+
+───────────────────────────────────────────────────────────────────
+
+💡 TIPS
+
+1. **Servo Wire Order:**
+   - Usually: GND, 5V, Signal (dark to light)
+   - Check your servo's datasheet/label if unsure
+
+2. **Common Ground:**
+   - ALL GNDs must connect together:
+     Sensor GND, Servo GND, Buzzer (-), LCD GND
+   - They can share the same Arduino GND pin
+
+3. **Power Distribution:**
+   - Arduino 5V pin can provide ~500mA total
+   - Servo draws 100-600mA
+   - LCD draws ~20mA
+   - Sensor draws ~15mA
+   - Should work fine from Arduino 5V
+   - If brownouts occur, use external 5V supply
+
+4. **PWM Pins:**
+   - Servo MUST use PWM-capable pin
+   - On R4: 3, 5, 6, 9, 10, 11
+   - We use Pin 11 to avoid conflict with sensor
+
+5. **Servo Range:**
+   - Most servos: 0° - 180°
+   - Some can do slightly more: -10° to +190°
+   - Don't exceed range (damages servo)
+
+───────────────────────────────────────────────────────────────────
+
+🚀 YOU'RE READY!
+
+Once wired:
+  1. Upload the code
+  2. Open Serial Monitor (see distances)
+  3. Servo should center at 90°
+  4. Hold hand in front of sensor
+  5. Watch servo oscillate faster as you approach!
+  6. Hear buzzer pitch increase!
+  7. See real-time info on LCD!
+
+Expected behavior:
+  Far (>150cm):   Silent, servo stopped
+  Medium (100cm): Low beep, slow oscillation
+  Close (50cm):   Medium beep, medium speed
+  Very close:     High beep, fast fan motion!
+
+═══════════════════════════════════════════════════════════════════
+

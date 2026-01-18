@@ -1,0 +1,286 @@
+╔══════════════════════════════════════════════════════════════════╗
+║        PROXIMITY ALARM - WIRING GUIDE                            ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMPONENTS NEEDED:
+  • Arduino Uno R4 ✓
+  • HC-SR04 Ultrasonic Distance Sensor ✓
+  • Buzzer (Active OR Passive - both work!) ✓
+  • 5 jumper wires
+
+───────────────────────────────────────────────────────────────────
+
+📏 PART 1: IDENTIFY THE ULTRASONIC SENSOR
+
+Your HC-SR04 sensor looks like this:
+
+Front view (facing you):
+┌────────────────────┐
+│    [  ]    [  ]    │  ← Two "eyes" (Transmitter & Receiver)
+│     T       R      │     Like WALL-E's eyes!
+│                    │
+│ VCC TRIG ECHO GND  │
+│  •   •    •    •   │  ← 4 pins underneath
+└────────────────────┘
+
+The "eyes":
+  [T] = Transmitter (sends ultrasonic sound)
+  [R] = Receiver (detects echo)
+
+The 4 pins (from left to right):
+  VCC  = Power (5V)
+  TRIG = Trigger (Arduino sends pulse here)
+  ECHO = Echo (sensor sends signal back)
+  GND  = Ground
+
+───────────────────────────────────────────────────────────────────
+
+🔌 PART 2: CONNECTION TABLE
+
+Component Pin         →    Arduino Pin
+──────────────────────────────────────────────
+HC-SR04 VCC          →    5V
+HC-SR04 TRIG         →    Pin 9
+HC-SR04 ECHO         →    Pin 10
+HC-SR04 GND          →    GND
+
+Buzzer (+)           →    Pin 8
+Buzzer (-)           →    GND
+
+───────────────────────────────────────────────────────────────────
+
+🔧 PART 3: STEP-BY-STEP WIRING
+
+CONNECTION 1: HC-SR04 VCC → Arduino 5V
+─────────────────────────────────────
+  Sensor side: First pin (leftmost) = VCC
+  Arduino side: 5V pin (in POWER section)
+
+  Look at sensor, find the pin labeled "VCC"
+  Connect to Arduino 5V
+
+
+CONNECTION 2: HC-SR04 TRIG → Arduino Pin 9
+──────────────────────────────────────────
+  Sensor side: Second pin = TRIG
+  Arduino side: Digital Pin 9
+
+  Find the pin labeled "TRIG"
+  Connect to Pin 9 (DIGITAL section, left side)
+
+
+CONNECTION 3: HC-SR04 ECHO → Arduino Pin 10
+───────────────────────────────────────────
+  Sensor side: Third pin = ECHO
+  Arduino side: Digital Pin 10
+
+  Find the pin labeled "ECHO"
+  Connect to Pin 10 (next to Pin 9)
+
+
+CONNECTION 4: HC-SR04 GND → Arduino GND
+───────────────────────────────────────
+  Sensor side: Fourth pin (rightmost) = GND
+  Arduino side: GND pin (in POWER section)
+
+  Find the pin labeled "GND"
+  Connect to any GND on Arduino
+
+
+CONNECTION 5: Buzzer (+) → Arduino Pin 8
+────────────────────────────────────────
+  Buzzer side: Positive (+) pin/wire
+  Arduino side: Digital Pin 8
+
+  (You might have done this in Experiment 03!)
+
+
+CONNECTION 6: Buzzer (-) → Arduino GND
+──────────────────────────────────────
+  Buzzer side: Negative (-) pin/wire
+  Arduino side: GND pin
+
+  Can share the same GND as sensor
+
+───────────────────────────────────────────────────────────────────
+
+📐 COMPLETE WIRING DIAGRAM
+
+HC-SR04 Ultrasonic Sensor (4 pins):
+
+Pin 1 (VCC)  ────────────→ Arduino 5V
+Pin 2 (TRIG) ────────────→ Arduino Pin 9
+Pin 3 (ECHO) ────────────→ Arduino Pin 10
+Pin 4 (GND)  ────────────→ Arduino GND
+
+
+Buzzer (2 pins):
+
+Pin (+)      ────────────→ Arduino Pin 8
+Pin (-)      ────────────→ Arduino GND
+
+
+Visual Layout:
+
+        HC-SR04 Sensor
+        ┌──[T] [R]──┐
+        │ VCC TRIG ECHO GND
+        └──┼───┼───┼───┼───┘
+           │   │   │   │
+           │   │   │   └─────────┐
+           │   │   └─────────┐   │
+           │   └─────────┐   │   │
+           └─────────┐   │   │   │
+                     │   │   │   │
+    Arduino Uno R4   │   │   │   │
+    ┌────────────────┼───┼───┼───┼────┐
+    │                │   │   │   │    │
+    │   POWER        │   │   │   │    │
+    │   ─────        │   │   │   │    │
+    │    GND  ●──────┼───┼───┼───┘    │
+    │    5V   ●──────┘   │   │        │
+    │                    │   │        │
+    │  DIGITAL           │   │        │
+    │  ───────           │   │        │
+    │  Pin 8  ●──────────┼───┼──Buzzer(+)
+    │  Pin 9  ●──────────┘   │        │
+    │  Pin 10 ●──────────────┘        │
+    └─────────────────────────────────┘
+
+    Buzzer (-)  ──────→ Arduino GND
+
+───────────────────────────────────────────────────────────────────
+
+📍 WHERE ARE THE PINS ON ARDUINO?
+
+Looking at Arduino from above (USB port at top):
+
+         [USB Port]
+             ║
+    ┌────────╨──────────┐
+    │                   │
+    │  LEFT SIDE        │  RIGHT SIDE
+    │  (DIGITAL)        │  (POWER + ANALOG)
+    │                   │
+    │  Pin 0            │  POWER
+    │  Pin 1            │  ─────
+    │  Pin 2            │  GND  ← Sensor GND + Buzzer (-)
+    │  Pin 3            │  GND
+    │  Pin 4            │  5V   ← Sensor VCC
+    │  Pin 5            │  3.3V
+    │  Pin 6            │
+    │  Pin 7            │  ANALOG
+    │  Pin 8  ← Buzzer(+) ──────
+    │  Pin 9  ← TRIG   │  A0
+    │  Pin 10 ← ECHO   │  A1
+    │  Pin 11           │  A2
+    │  Pin 12           │  A3
+    │  Pin 13           │  A4
+    │                   │  A5
+    └───────────────────┘
+
+───────────────────────────────────────────────────────────────────
+
+✅ CONNECTION CHECKLIST
+
+Before uploading code, verify:
+
+Ultrasonic Sensor:
+  [ ] VCC (pin 1) → Arduino 5V
+  [ ] TRIG (pin 2) → Arduino Pin 9
+  [ ] ECHO (pin 3) → Arduino Pin 10
+  [ ] GND (pin 4) → Arduino GND
+
+Buzzer:
+  [ ] Positive (+) → Arduino Pin 8
+  [ ] Negative (-) → Arduino GND
+
+General:
+  [ ] All wires firmly connected
+  [ ] Sensor facing outward (not toward Arduino)
+  [ ] Buzzer polarity correct
+  [ ] Arduino connected to computer via USB
+
+───────────────────────────────────────────────────────────────────
+
+🎯 SENSOR POSITIONING
+
+IMPORTANT: Make sure the sensor faces AWAY from Arduino!
+
+CORRECT:
+  Arduino  →  Sensor  →  [Empty space to detect]
+  ═══════     ╔═╗
+             ╔═══╗   →  Point this way!
+
+WRONG:
+  Sensor facing wall/table directly
+  (Will always show very small distance)
+
+
+For testing:
+  • Point sensor toward open space
+  • Hold your hand in front of sensor
+  • Move hand closer/farther
+  • Buzzer should beep faster as you approach!
+
+───────────────────────────────────────────────────────────────────
+
+🔧 TROUBLESHOOTING
+
+Problem: Sensor always shows 0cm or weird values
+Fix:
+  • Check TRIG and ECHO wires (Pin 9 and 10)
+  • Make sure VCC and GND are connected
+  • Sensor should have power LED lit (if it has one)
+
+Problem: No buzzer sound
+Fix:
+  • Check buzzer (+) to Pin 8
+  • Check buzzer (-) to GND
+  • Try swapping buzzer polarity
+  • Active buzzer works better for this project
+
+Problem: Distance always shows maximum (400cm)
+Fix:
+  • Nothing is in front of sensor (this is normal!)
+  • Point at wall or hold hand in front
+  • Check sensor "eyes" are not blocked
+
+Problem: Buzzer beeps constantly
+Fix:
+  • Object too close (<15cm)
+  • Move object farther away
+  • This is the ALARM mode - working correctly!
+
+───────────────────────────────────────────────────────────────────
+
+💡 TIPS
+
+1. **Sensor Orientation:**
+   Make sure the two "eyes" face your test object
+
+2. **Best Test Object:**
+   Your hand works perfectly - flat surface
+
+3. **Distance Range:**
+   Reliable: 5cm to 200cm
+   Maximum: 400cm (but less reliable)
+
+4. **Active vs Passive Buzzer:**
+   Either works! Active is louder and simpler
+
+5. **Common GND:**
+   Sensor GND and Buzzer (-) can share the same GND pin
+
+───────────────────────────────────────────────────────────────────
+
+🚀 YOU'RE READY!
+
+Once wired:
+  1. Upload the code
+  2. Open Serial Monitor (see distances)
+  3. Hold hand in front of sensor
+  4. Move closer → beeps get faster!
+  5. Get very close → continuous ALARM!
+
+═══════════════════════════════════════════════════════════════════

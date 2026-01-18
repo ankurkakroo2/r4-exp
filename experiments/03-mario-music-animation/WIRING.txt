@@ -1,0 +1,207 @@
+╔══════════════════════════════════════════════════════════════════╗
+║          MARIO PROJECT - BUZZER WIRING GUIDE                     ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMPONENTS NEEDED:
+  • Arduino Uno R4 ✓
+  • 16x2 LCD (I2C) ✓ (already connected from Experiment 02)
+  • **PASSIVE BUZZER** (NEW!)
+  • 1 jumper wire (Male-to-Male or Male-to-Female)
+
+───────────────────────────────────────────────────────────────────
+
+🔊 IDENTIFY YOUR BUZZER TYPE
+
+You have TWO types of buzzers in your kit:
+  • **Active Buzzer** - Fixed tone only (like a doorbell)
+  • **Passive Buzzer** - Variable tones (can play melodies) ✓ WE NEED THIS!
+
+HOW TO IDENTIFY:
+
+1. **Look at the bottom:**
+   Active:  [●●●] Sealed black with sticker
+   Passive: [PCB] Green circuit board visible ← USE THIS ONE!
+
+2. **Or test (if unsure):**
+   Connect to 5V and GND directly:
+   - Active: Makes LOUD constant tone
+   - Passive: Makes soft/no sound (needs PWM signal)
+
+───────────────────────────────────────────────────────────────────
+
+🔌 NEW CONNECTION (Just 1 wire!)
+
+  Passive Buzzer          Arduino Uno R4
+  ──────────────          ──────────────
+  Positive (+)      →     Digital Pin 8
+  Negative (-)      →     GND
+
+
+DETAILED STEPS:
+
+1. Find the **PASSIVE buzzer** (green PCB on bottom)
+
+2. **Identify polarity:**
+   • Positive (+): Usually marked with "+" or longer leg
+   • Negative (-): Usually marked with "-" or shorter leg
+   • Or look for label on top/side
+
+3. **Connect Positive (+):**
+   • Passive Buzzer (+) → Arduino Pin 8
+   • Pin 8 is in the DIGITAL section (right side of Arduino)
+
+4. **Connect Negative (-):**
+   • Passive Buzzer (-) → Arduino GND
+   • GND is in the POWER section (right side, bottom)
+
+───────────────────────────────────────────────────────────────────
+
+COMPLETE WIRING DIAGRAM:
+
+LCD (I2C)                    Arduino Uno R4
+┌──────────────┐            ┌──────────────┐
+│ I2C Backpack │            │              │
+│  GND VCC SDA SCL          │    POWER     │
+└──┼───┼───┼───┼──          │    ─────     │
+   │   │   │   │            │     GND ●────┼──(LCD GND)
+   │   │   │   │            │     GND ●────┼──(Buzzer -)
+   │   │   │   │            │     5V  ●────┼──(LCD VCC)
+   │   │   │   │            │              │
+   │   │   │   │            │   DIGITAL    │
+   │   │   │   │            │   ───────    │
+   │   │   │   │            │     Pin 8 ●──┼──(Buzzer +)
+   │   │   │   │            │              │
+   │   │   │   │            │   ANALOG     │
+   │   │   │   │            │   ──────     │
+   │   │   │   └────────────┤     A5       │
+   │   │   └────────────────┤     A4       │
+   │   └────────────────────┤              │
+   └────────────────────────┘              │
+                                           └──────────────┘
+
+Passive Buzzer
+┌──────────────┐
+│   (+)  (-)   │
+│    │    │    │
+└────┼────┼────┘
+     │    │
+     │    └──────────→ GND
+     │
+     └───────────────→ Pin 8
+
+───────────────────────────────────────────────────────────────────
+
+CONNECTION TABLE:
+
+From                    To
+─────────────────────────────────────────
+LCD GND              →  Arduino GND
+LCD VCC              →  Arduino 5V
+LCD SDA              →  Arduino A4
+LCD SCL              →  Arduino A5
+Buzzer (+)           →  Arduino Pin 8  ← NEW!
+Buzzer (-)           →  Arduino GND    ← NEW!
+
+───────────────────────────────────────────────────────────────────
+
+📍 PIN LOCATIONS ON ARDUINO
+
+Looking at Arduino from above (USB at top):
+
+         [USB Port]
+             ║
+    ┌────────╨────────┐
+    │                 │
+    │  DIGITAL PINS   │  POWER
+    │  ────────────   │  ─────
+    │  0  1  2  3  4  │  GND ← Buzzer (-)
+    │  5  6  7  8     │  GND
+    │           ↑     │  5V
+    │           │     │
+    │           Pin 8 │  ANALOG
+    │       Buzzer (+)│  ──────
+    │                 │  A0
+    │                 │  A1
+    │                 │  A2
+    │                 │  A3
+    │                 │  A4 ← LCD SDA
+    │                 │  A5 ← LCD SCL
+    └─────────────────┘
+
+───────────────────────────────────────────────────────────────────
+
+✅ VERIFICATION CHECKLIST
+
+Before uploading code, verify:
+
+[ ] LCD is still connected (GND, VCC, SDA, SCL)
+[ ] LCD displays "Karishma, i love you" (previous program)
+[ ] PASSIVE buzzer identified (green PCB on bottom)
+[ ] Buzzer (+) connected to Pin 8
+[ ] Buzzer (-) connected to GND
+[ ] All connections are FIRM (wiggle test)
+
+───────────────────────────────────────────────────────────────────
+
+🎵 TESTING THE BUZZER
+
+Once code is uploaded, you should:
+
+HEAR:
+  ✓ Super Mario Bros theme playing
+  ✓ Multiple tones/notes (melody)
+  ✓ Victory jingle at end
+
+SEE:
+  ✓ "Super Mario!" on LCD top row
+  ✓ Mario character walking on bottom row
+  ✓ Mario moves left to right
+  ✓ Walking animation (legs move)
+  ✓ "Victory!" message at end
+
+IF NO SOUND:
+  • Check you have PASSIVE buzzer (not active)
+  • Verify (+) goes to Pin 8 (not other pins)
+  • Verify (-) goes to GND
+  • Check buzzer isn't broken (swap with active to test)
+
+IF RANDOM/WRONG NOTES:
+  • Probably active buzzer instead of passive
+  • Swap buzzers
+
+───────────────────────────────────────────────────────────────────
+
+💡 TROUBLESHOOTING
+
+Problem: No sound at all
+Fix:
+  1. Check you're using PASSIVE buzzer (green PCB)
+  2. Verify Pin 8 connection
+  3. Try different buzzer
+
+Problem: Constant beep, not melody
+Fix:
+  • You're using ACTIVE buzzer
+  • Swap to PASSIVE buzzer (the one with PCB)
+
+Problem: Very quiet sound
+Fix:
+  • Passive buzzers are quieter than active
+  • This is normal! Music will still be recognizable
+
+Problem: LCD not working anymore
+Fix:
+  • Check LCD wiring didn't get disconnected
+  • Re-verify GND, VCC, SDA, SCL connections
+
+───────────────────────────────────────────────────────────────────
+
+🎮 QUICK START
+
+1. Identify PASSIVE buzzer (green PCB bottom)
+2. Connect (+) to Pin 8
+3. Connect (-) to GND
+4. Upload code
+5. Watch Mario walk + hear music! 🍄
+
+═══════════════════════════════════════════════════════════════════
