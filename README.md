@@ -1,302 +1,176 @@
-# Arduino R4 Experiments 🤖
+# Arduino R4 Experiments
 
-A software engineer's journey into the world of Arduino, hardware, and embedded systems. This repository documents hands-on experiments with the Arduino Uno R4, exploring sensors, displays, motors, and sound while building practical and fun projects.
+I'm a software engineer who finally decided to see what all this hardware fuss is about. This repo is my journey from pure code to actually making things in the real world - sensors, displays, motors, noise, and the occasional moment of "wait, it actually worked."
 
-## 🎯 Project Goals
+## The Setup
 
-- **Learn by doing**: Transition from pure software to hardware/software integration
-- **Understand fundamentals**: I/O, sensors, actuators, communication protocols
-- **Build incrementally**: Start simple, add complexity progressively
-- **Document thoroughly**: Each experiment is self-contained with detailed explanations
-- **Have fun**: Create interactive, engaging projects that respond to the world
+**Board:** Arduino Uno R4 Minima
+**Kit:** Quad Store Super Starter Kit (fancy name for "box of parts I'm gradually figuring out")
 
-## 🛠️ Hardware Setup
+**What I'm working with:**
+- HC-SR04 Ultrasonic Distance Sensor (the "eyes")
+- 16x2 LCD Display (the "mouth")
+- SG90 Servo Motor (the "arms")
+- Buzzers - both passive and active (the "voice")
+- A bunch of LEDs, resistors, and mysterious components
+- Breadboard for making wiring mistakes and fixing them
 
-**Board:** Arduino Uno R4 Minima (R4-lite clone)
-**Kit:** Quad Store Super Starter Kit for Arduino
-
-**Key Components:**
-- HC-SR04 Ultrasonic Distance Sensor
-- 16x2 LCD Display (I2C)
-- SG90 Servo Motor
-- Passive Buzzer
-- Active Buzzer
-- Various LEDs, resistors, sensors
-- Breadboard for prototyping
-
-**Software:**
-- Arduino IDE 2.3.7
-- Arduino CLI for command-line workflows
-- Core: `arduino:renesas_uno` (R4 support)
-
-## 📚 Experiments
+## Experiments So Far
 
 ### Experiment 01: Blink
-**Concepts:** Basic I/O, Digital output, LED control
-**Status:** ✅ Completed
-**Description:** The classic "Hello World" of Arduino - blink the onboard LED.
+The classic "hello world" of hardware. Got an LED to blink. Felt disproportionately proud of myself.
 
-**Key Learnings:**
-- Arduino execution model (setup + loop)
-- Digital output with `digitalWrite()`
-- Timing with `delay()`
-- Uploading and running code on hardware
+What I learned:
+- How Arduino actually runs code (setup once, loop forever)
+- Making pins go high and low
+- Why `delay()` is both useful and terrible
+- Uploading code to actual hardware
 
----
+### Experiment 02: LCD Display
+Got an LCD to display text. May or may not have used it to display a romantic message. (Spoiler: I did.)
 
-### Experiment 02: LCD Display - "Karishma, i love you"
-**Concepts:** I2C communication, LCD control, Text display
-**Status:** ✅ Completed
-**Hardware:** 16x2 LCD with I2C backpack
-**Location:** `experiments/02-lcd-display/`
+What I learned:
+- I2C communication (fancy name for "talks to stuff with 2 wires")
+- How to find device addresses when you don't know them
+- LCD libraries that make life way easier
+- Why having an I2C scanner is a lifesaver
 
-**What it does:**
-- Displays custom message on 16x2 LCD
-- Uses I2C protocol (2-wire communication)
-- Address detection with I2C scanner
+### Experiment 03: Super Mario Bros
+Mario theme music + walking animation on the LCD. This was the one that made me go "oh, I can actually make cool stuff with this."
 
-**Key Learnings:**
-- I2C protocol (SDA/SCL pins)
-- Device addressing (0x27)
-- LiquidCrystal_I2C library
-- Multi-device bus communication
-- Troubleshooting with I2C scanner
+What I learned:
+- Creating custom pixel characters with binary
+- Making noise with buzzers (passive vs active - who knew?)
+- Timing music with animations
+- Why 48 notes of melody data takes a while to debug
 
-**Files:**
-- `DisplayName/DisplayName.ino` - Main display code
-- `I2C_Scanner/I2C_Scanner.ino` - Address detection utility
-- `WIRING.txt` - Detailed wiring guide
-- `README.md` - I2C protocol explanation
+### Experiment 04: Proximity Alarm
+Basically car parking sensors. Beeps faster as stuff gets closer. Surprisingly satisfying to annoy people with.
 
----
-
-### Experiment 03: Super Mario Bros - Music + Animation
-**Concepts:** Custom LCD characters, Tone generation, Synchronization
-**Status:** ✅ Completed
-**Hardware:** 16x2 LCD (I2C), Passive buzzer
-**Location:** `experiments/03-mario-music-animation/`
-
-**What it does:**
-- Plays Super Mario Bros theme on buzzer
-- Shows Mario walking across LCD screen
-- Custom 5×8 pixel character animation
-- Synchronized music and movement
-
-**Key Learnings:**
-- Custom LCD characters with binary notation (`0b01110`)
-- `tone()` function for music playback
-- Musical note frequencies (A4 = 440Hz)
-- Frame-by-frame animation
-- Passive vs Active buzzers
-- Multi-tasking with sequential execution
-
-**Files:**
-- `MarioGame/MarioGame.ino` - Complete game code
-- `WIRING.txt` - Buzzer connection guide
-- `README.md` - Music theory and animation concepts
-
-**Cool Features:**
-- 48-note melody array
-- 2-frame walking animation
-- Victory jingle at end
-- Continuous looping
-
----
-
-### Experiment 04: Proximity Alarm - Parking Sensor
-**Concepts:** Ultrasonic sensing, Distance measurement, Zone-based alerts
-**Status:** ✅ Completed
-**Hardware:** HC-SR04 sensor, Buzzer, LCD
-**Location:** `experiments/04-proximity-alarm/`
-
-**What it does:**
-- Measures distance using ultrasonic sensor (like sonar)
-- Beeps faster as objects get closer
-- Shows real-time distance and status on LCD
-- Works like car parking sensors
-
-**Key Learnings:**
-- Ultrasonic sensor physics (speed of sound = 343 m/s)
-- `pulseIn()` for pulse width measurement
-- Distance calculation: `distance = (duration × 0.034) / 2`
-- `map()` function for range scaling
-- Non-blocking timing with `millis()`
+What I learned:
+- Ultrasonic sensors are like tiny bats
+- Math: distance = (time × speed of sound) / 2
+- Non-blocking code (millis() > delay() - life lesson there too)
 - Zone-based state machines
+- That pulse width measurement is actually useful
 
-**Distance Zones:**
-- >200cm: Silent, safe
-- 100-200cm: Slow beeps (1/sec)
-- 50-100cm: Medium beeps (2-3/sec)
-- 20-50cm: Fast beeps (5+/sec)
-- <15cm: Continuous alarm!
+### Experiment 05: Proximity Fan
+Things get spicy when you're close. Mario music speeds up, a fan waves faster, chaos ensues.
 
-**Files:**
-- `ProximityAlarm/ProximityAlarm.ino` - Main sensor code
-- `WIRING.txt` - HC-SR04 wiring guide
-- `README.md` - Ultrasonic physics explanation
+What I learned:
+- Servo motors and PWM signals
+- Variable tempo music (faster when closer = more panic)
+- Multi-tasking without blocking (the holy grail)
+- Making multiple outputs respond to one input
+- That 300% speed Mario theme is... intense
 
----
+## How I Think About Arduino
 
-### Experiment 05: Proximity Fan - Servo + Variable Tempo Music
-**Concepts:** Servo control, PWM, Variable tempo playback, Multi-parameter adaptation
-**Status:** ✅ Completed
-**Hardware:** HC-SR04 sensor, SG90 servo, Buzzer, LCD
-**Location:** `experiments/05-proximity-fan/`
+Coming from software, here's what clicked for me:
 
-**What it does:**
-- Measures distance with ultrasonic sensor
-- Oscillates servo motor faster as objects approach (fan effect)
-- Plays Mario theme at variable tempo (faster when closer)
-- Shows distance, tempo %, and servo speed on LCD
-
-**Key Learnings:**
-- Servo motor control with Servo library
-- PWM signal generation (50Hz, 0.5-2.5ms pulse width)
-- Angle positioning (0-180°)
-- Creating oscillation by toggling positions
-- Variable tempo music playback
-- Non-blocking multi-tasking (distance sensing + music + servo + LCD)
-- Tempo vs Pitch (speed vs frequency)
-- Percentage-based scaling (100% = normal, 200% = 2x faster)
-
-**Adaptive Behavior:**
-```
-Distance    Tempo    Servo Speed    Experience
->150cm      Silent   Stopped        Safe, quiet
-100cm       100%     450ms          Normal Mario
-50cm        200%     300ms          2x faster music!
-20cm        275%     175ms          Super fast
-<15cm       300%     150ms          3x speed MAX!
-```
-
-**Files:**
-- `ProximityFan/ProximityFan.ino` - Main adaptive system code
-- `ServoTest/ServoTest.ino` - Servo power diagnostic tool
-- `WIRING.txt` - Complete wiring guide (sensor + servo + buzzer + LCD)
-- `README.md` - Servo mechanics and PWM explanation
-
-**Technical Highlights:**
-- Non-blocking music player with melody looping
-- Formula: `adjustedDuration = (baseDuration × 100) / tempoMultiplier`
-- 48-note Mario melody array
-- Simultaneous control of 3 outputs from 1 input (distance)
-- Smooth tempo transitions
-
----
-
-## 🧠 Mental Model
-
-As a software engineer, here's how I think about Arduino:
-
-**Execution Model:**
+**The execution model:**
 ```cpp
 void setup() {
-  // Runs ONCE at startup
-  // Like constructor / initialization
+  // Runs once. Like a constructor, but for the whole board.
 }
 
 void loop() {
-  // Runs FOREVER in infinite loop
-  // Like game loop or event loop
-  // ~16,000 times per second!
+  // Runs forever. Literally.
+  // Like a game loop that never ends
+  // Which it doesn't, until you unplug it
 }
 ```
 
-**Key Differences from Traditional Software:**
-- **No OS**: Direct hardware control
-- **Real-time**: Timing matters (use `millis()` not `delay()`)
-- **Limited resources**: 256KB flash, 32KB RAM
-- **Physical I/O**: Sensors, motors, displays are your interface
-- **State machines**: Track state across loop iterations
+**What's different from regular coding:**
+- No operating system - you're talking directly to the metal
+- Timing actually matters - use `millis()` not `delay()` or everything breaks
+- Not much memory - 256KB flash, 32KB RAM. That's it.
+- The "interface" is physical - sensors, motors, displays
+- State machines become your best friend
 
-**Non-Blocking Pattern** (Critical!):
+**The non-blocking pattern (this is important):**
 ```cpp
-// BAD - Blocks everything
+// Don't do this - blocks everything
 delay(1000);
 
-// GOOD - Non-blocking
+// Do this instead
 unsigned long lastTime = 0;
 if (millis() - lastTime > 1000) {
-  // Do something
+  // Do your thing
   lastTime = millis();
 }
 ```
 
-See `MENTAL_MODEL.md` for detailed explanations.
+Check `MENTAL_MODEL.md` for more of my brain dumps on this.
 
 ---
 
-## 🚀 Future Experiment Ideas
+## Stuff I Want to Try Next
 
-### 🎮 Immediate Ideas
-- [ ] **RGB LED Mood Light**: Distance-based color changes
-- [ ] **Theremin**: Distance controls pitch (musical instrument)
-- [ ] **Multi-sensor Array**: 360° obstacle detection
-- [ ] **Data Logger**: Log sensor data over time, plot on Serial Plotter
-- [ ] **Stepper Motor Control**: Precise positioning vs servo
+**Quick wins:**
+- RGB LED mood light that changes color based on distance
+- Theremin-style musical instrument (distance = pitch)
+- 360-degree obstacle detection with multiple sensors
+- Data logging with Serial Plotter graphs
+- Stepper motor (because precision)
 
-### 🌟 Intermediate Ideas
-- [ ] **Temperature Alarm**: DHT11 sensor with threshold alerts
-- [ ] **Light-following Robot**: Photoresistor + dual servos
-- [ ] **MIDI Controller**: Turn sensors into music controller
-- [ ] **Web Dashboard**: ESP32 WiFi + sensor data visualization
-- [ ] **Gesture Control**: Multiple ultrasonic sensors for hand tracking
+**Getting fancy:**
+- Temperature alarms with DHT11
+- Light-following robot (photoresistor + dual servos)
+- MIDI controller from sensors
+- WiFi dashboard (probably need an ESP32 for that)
+- Gesture tracking with multiple ultrasonic sensors
 
-### 🔥 Advanced Ideas
-- [ ] **Mini Radar Display**: Rotating ultrasonic + processing visualization
-- [ ] **Persistence of Vision**: LED strip + motor = mid-air display
-- [ ] **Multi-room Sensor Network**: I2C/SPI multi-board communication
-- [ ] **Computer Vision**: Camera module + object detection
-- [ ] **Custom PCB**: Design and fabricate custom shield
+**Advanced stuff (maybe someday):**
+- Mini radar display with rotating sensor
+- Persistence of vision (LED strip + motor = mid-air display)
+- Multi-board sensor network
+- Computer vision (camera module?)
+- Custom PCB design
 
-### 💡 Creative Applications
-- [ ] **Interactive Art Installation**: Proximity-reactive sound/light sculpture
-- [ ] **Plant Monitor**: Soil moisture + auto-watering system
-- [ ] **Pet Feeder**: Scheduled feeding with ultrasonic level sensor
-- [ ] **Bike Speedometer**: Hall effect sensor + LCD display
-- [ ] **Door/Window Alert**: Magnetic switches + notification system
+**Practical things:**
+- Plant monitor with auto-watering
+- Pet feeder (because why not)
+- Bike speedometer
+- Door/window alerts
 
----
+## Progress So Far
 
-## 📊 Progress Tracker
+| Experiment | What | Hardware | Done? |
+|------------|------|----------|-------|
+| 01 - Blink | Digital I/O basics | Onboard LED | Yes |
+| 02 - LCD Display | I2C, text | LCD 16x2 | Yes |
+| 03 - Mario Game | Animation + sound | LCD, Buzzer | Yes |
+| 04 - Proximity Alarm | Ultrasonic, zones | HC-SR04, Buzzer | Yes |
+| 05 - Proximity Fan | Servo, variable tempo | HC-SR04, Servo, Buzzer | Yes |
 
-| Experiment | Concept | Hardware | Status |
-|------------|---------|----------|--------|
-| 01 - Blink | Digital I/O | Onboard LED | ✅ |
-| 02 - LCD Display | I2C, Text | LCD 16x2 | ✅ |
-| 03 - Mario Game | Animation, Sound | LCD, Buzzer | ✅ |
-| 04 - Proximity Alarm | Ultrasonic, Zones | HC-SR04, Buzzer | ✅ |
-| 05 - Proximity Fan | Servo, Variable Tempo | HC-SR04, Servo, Buzzer | ✅ |
+**Sensors figured out:** 2/6 (Ultrasonic, LCD)
+**Displays working:** 1/4 (16x2 LCD)
+**Motors conquered:** 1/2 (SG90 Servo)
+**Total kit explored:** About 15%
 
-**Sensors Used:** 2/6 (Ultrasonic, LCD)
-**Displays Used:** 1/4 (16x2 LCD)
-**Motors Used:** 1/2 (SG90 Servo)
-**Components Explored:** ~15%
-
-Lots more to explore! 🚀
+Plenty more to play with.
 
 ---
 
-## 🔧 Development Workflow
+## How I Work
 
-### Quick Commands
-
+**Quick commands:**
 ```bash
-# Compile sketch
+# Compile
 arduino-cli compile --fqbn arduino:renesas_uno:minima
 
 # Upload to board
 arduino-cli upload -p /dev/cu.usbmodem2101 --fqbn arduino:renesas_uno:minima
 
-# Install library
+# Install a library
 arduino-cli lib install <LibraryName>
 
-# Monitor serial output
+# Watch serial output
 arduino-cli monitor -p /dev/cu.usbmodem2101 -c baudrate=9600
 ```
 
-### Project Structure
-
+**Project structure:**
 ```
 r4-exp/
 ├── experiments/
@@ -305,110 +179,93 @@ r4-exp/
 │   ├── 03-mario-music-animation/
 │   ├── 04-proximity-alarm/
 │   └── 05-proximity-fan/
-├── KIT_COMPONENTS.md       # Full component inventory
-├── MENTAL_MODEL.md         # Thinking framework for Arduino
-├── QUICK_REFERENCE.md      # Syntax cheat sheet
-└── README.md               # This file
+├── KIT_COMPONENTS.md       # What's in the box
+├── MENTAL_MODEL.md         # How I think about this stuff
+├── QUICK_REFERENCE.md      # Cheat sheet
+└── README.md               # You are here
 ```
 
-Each experiment folder contains:
-- `<ExperimentName>.ino` - Arduino sketch
-- `WIRING.txt` - Detailed wiring diagrams
-- `README.md` - Concepts, theory, and explanations
+Each experiment has:
+- The sketch (`.ino` file)
+- Wiring instructions (`WIRING.txt`)
+- A README explaining what I learned
 
----
+## What I've Learned
 
-## 🎓 Key Learnings
+**Technical stuff:**
+- I2C communication (and how to find addresses when they're lost)
+- Ultrasonic distance measuring (math actually works)
+- PWM for servo control
+- Making music with tone() functions
+- Creating custom LCD characters
+- Non-blocking multi-tasking (still feels like magic)
+- State machines (surprisingly useful everywhere)
+- Real-time sensor processing
 
-### Technical Skills
-- ✅ I2C communication protocol
-- ✅ Ultrasonic distance measurement
-- ✅ PWM for servo control
-- ✅ Tone generation and music playback
-- ✅ Custom LCD character creation
-- ✅ Non-blocking multi-tasking patterns
-- ✅ State machine design
-- ✅ Real-time sensor processing
+**Hardware fundamentals:**
+- Voltage levels (5V vs 3.3V - compatibility matters)
+- Current limits (servos are hungry)
+- Pull-up/pull-down resistors (why they exist)
+- Breadboard power distribution
+- Common ground (everything needs to agree on zero)
+- PWM vs Digital vs Analog pins
 
-### Hardware Understanding
-- ✅ Voltage levels (5V logic, 3.3V compatibility)
-- ✅ Current limits (servo power requirements)
-- ✅ Pull-up/pull-down resistors
-- ✅ Breadboard power distribution
-- ✅ Common ground requirements
-- ✅ PWM vs Digital vs Analog pins
+**Problem solving:**
+- Debugging I2C addresses with scanners
+- Troubleshooting power issues
+- Optimizing servo timing
+- Writing non-blocking algorithms
+- Multi-parameter adaptive systems (fancy name for "stuff that reacts")
 
-### Problem Solving
-- ✅ I2C address debugging with scanners
-- ✅ Power supply troubleshooting
-- ✅ Servo timing optimization
-- ✅ Non-blocking algorithm design
-- ✅ Multi-parameter adaptive systems
-
----
-
-## 🌱 Philosophy
+## The Approach
 
 > "The best way to learn is to build something that makes you smile."
 
 Every experiment here:
-- Solves a real problem or creates something fun
-- Teaches at least one new concept
-- Builds on previous knowledge
-- Is thoroughly documented for future reference
-- Actually works (no "in theory" code!)
+- Does something real or fun
+- Teaches at least one new thing
+- Builds on what I already know
+- Is documented so I can remember it later
+- Actually works (no "in theory" nonsense)
 
-This isn't about building the most complex thing possible - it's about understanding **how things work** from first principles, and having fun along the way.
+This isn't about building the most complex thing possible. It's about understanding how things work from first principles, and having fun along the way.
 
----
+## Resources
 
-## 📖 Resources
-
-**Official Documentation:**
+**Official docs:**
 - [Arduino Language Reference](https://www.arduino.cc/reference/en/)
 - [Arduino Uno R4 Minima Docs](https://docs.arduino.cc/hardware/uno-r4-minima/)
 
-**Libraries Used:**
-- `LiquidCrystal_I2C` - LCD display control
+**Libraries I've used:**
+- `LiquidCrystal_I2C` - LCD control
 - `Servo` - Servo motor control
 - `Wire` - I2C communication (built-in)
 
-**Learning Resources:**
-- Each experiment's README.md has detailed concept explanations
-- `MENTAL_MODEL.md` - Software engineer's guide to Arduino
-- Inline code comments explain the "why" not just the "what"
+**Learning stuff:**
+- Each experiment's README has the detailed explanations
+- `MENTAL_MODEL.md` - My software-engineer-turned-hardware-person notes
+- Code comments explain why, not just what
+
+## Contributing
+
+This is mostly my personal learning playground, but if you have ideas for cool experiments or better ways to explain stuff, I'm all ears. Open an issue or PR if you're inspired.
+
+## License
+
+MIT - use whatever you find here for your own learning.
+
+## Thanks
+
+- Arduino community for all the docs and examples
+- Claude (Anthropic) for being a surprisingly good pair programmer
+- All the open source library authors who made this accessible
 
 ---
 
-## 🤝 Contributing
+**Current status:** 5 experiments done, way too many ideas brewing
 
-This is a personal learning repository, but ideas and suggestions are welcome! If you have:
-- Cool experiment ideas that build on existing concepts
-- Better explanations for complex topics
-- Interesting hardware suggestions from the kit
-
-Feel free to open an issue or PR!
+**Last updated:** January 2026
 
 ---
 
-## 📝 License
-
-MIT License - Feel free to use this code and documentation for your own learning!
-
----
-
-## 🙏 Acknowledgments
-
-- **Arduino Community**: For extensive documentation and examples
-- **Claude (Anthropic)**: AI pair programmer helping me learn hardware
-- **Open Source Libraries**: Making complex hardware accessible
-
----
-
-**Current Status:** 5 experiments completed, many more ideas brewing! 🔧⚡
-
-**Last Updated:** January 2026
-
----
-
-*From `console.log()` to `digitalWrite()` - the journey continues!* 🚀
+*From console.log() to digitalWrite() - the adventure continues*
