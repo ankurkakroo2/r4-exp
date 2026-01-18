@@ -1,4 +1,4 @@
-# Arduino R4 Experiments
+# Arduino R4 Tiny Experiments
 
 
 ## The Setup
